@@ -23,11 +23,11 @@ class ProductTest < ActiveSupport::TestCase
 
     product.price = -1
     assert product.invalid?
-    assert_equal ["must be greater than or equal to 0.01"], products.errors[:price]
+    assert_equal ['must be greater than or equal to 0.01'], product.errors[:price]
 
     product.price = 0
     assert product.invalid?
-    assert_equal ["must be greater than or equal to 0.01"], products.errors[:price]
+    assert_equal ['must be greater than or equal to 0.01'], product.errors[:price]
 
     product.price = 1
     assert product.valid?
@@ -35,7 +35,7 @@ class ProductTest < ActiveSupport::TestCase
   end
 
   test "image url" do
-    ok = %w{ fred.gif fred.jpg fred png FRED.JPG FRED.Jpg http://a.b.c/x/y/z/fred.gif}
+    ok = %w{fred.gif fred.jpg fred.png FRED.JPG FRED.Jpg http://a.b.c/x/y/z/fred.gif}
     bad = %w{fred.doc fred.gif/more fred.gif.more}
 
     ok.each do |name|
@@ -53,15 +53,15 @@ class ProductTest < ActiveSupport::TestCase
                           price: 1,
                           image_url: 'fred.gif')
     assert product.invalid?
-    assert.equal ['has already been taken'], product.errors[:title]
+    assert_equal ['has already been taken'], product.errors[:title]
   end
 
-  test "prodyct is not valid without unique title - i18n" do
+  test "product is not valid without unique title - i18n" do
     product = Product.new(title: products(:ruby).title,
                           description: 'yyy',
                           price: 1,
                           image_url: 'fred.gif')
     assert product.invalid?
-    assert.equal [I18n.transalte('errors.messages.taken')], product.errors[:title]
+    assert_equal [I18n.translate('errors.messages.taken')], product.errors[:title]
   end
 end
